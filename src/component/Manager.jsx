@@ -10,7 +10,7 @@ const Manager = () => {
     const [passwordArray, setPasswordArray] = useState([]);
 
     const getPassword = async () => {
-        let req = await fetch("http://localhost:3000/")
+        let req = await fetch(`${import.meta.env.VITE_BACKEND_URL}`)
         let passwords = await req.json()
         console.log(passwords)
         setPasswordArray(passwords);
@@ -53,9 +53,9 @@ const Manager = () => {
         if (form.site.length >= 1 && form.username.length >= 1 && form.password.length >= 1) {
 
             // If any such id exist in the db , delete it
-            await fetch("http://localhost:3000/", { method: "DELETE", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ id: form.id }) })
+            await fetch(`${import.meta.env.VITE_BACKEND_URL}`, { method: "DELETE", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ id: form.id }) })
             setPasswordArray([...passwordArray, { ...form, id: uuidv4() }]);
-             await fetch("http://localhost:3000/", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ ...form, id: uuidv4() }) })
+             await fetch(`${import.meta.env.VITE_BACKEND_URL}`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ ...form, id: uuidv4() }) })
             // localStorage.setItem("passwords", JSON.stringify([...passwordArray, { ...form, id: uuidv4() }]));
             setForm({ site: "", username: "", password: "" });
             toast('Password Saved!!', {
@@ -86,7 +86,7 @@ const Manager = () => {
         let c = confirm("Do you really want to delete this password?");
         if (c) {
             setPasswordArray(passwordArray.filter(item => item.id !== id));
-            let res = await fetch("http://localhost:3000/", { method: "DELETE", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ id }) })
+            let res = await fetch(`${import.meta.env.VITE_BACKEND_URL}`, { method: "DELETE", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ id }) })
             // localStorage.setItem("passwords", JSON.stringify(passwordArray.filter(item => item.id !== id)));
             toast('Password Deleted', {
                 position: "top-right",
