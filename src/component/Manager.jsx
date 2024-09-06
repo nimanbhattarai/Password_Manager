@@ -43,11 +43,11 @@ const Manager = () => {
     };
 
     const showPassword = () => {
-        if (ref.current.src.includes("icons/eyecross.png")) {
+        if (ref.current.src.includes("/public/icons/eyecross.png")) {
             passwordRef.current.type = "password";
-            ref.current.src = "icons/eye.png";
+            ref.current.src = "public/icons/eye.png";
         } else {
-            ref.current.src = "icons/eyecross.png";
+            ref.current.src = "public/icons/eyecross.png";
             passwordRef.current.type = "text";
         }
     };
@@ -175,7 +175,7 @@ const Manager = () => {
                                 id="password"
                             />
                             <span className="absolute right-[5px] top-[2px] cursor-pointer" onClick={showPassword}>
-                                <img ref={ref} className="p-1" width={30} src="icons/eye.png" alt="eye" />
+                                <img ref={ref} className="p-1" width={30} src="public/icons/eye.png" alt="eye" />
                             </span>
                         </div>
                     </div>
