@@ -17,7 +17,7 @@ app.use(cors({
 
 // MongoDB Connection URI (use environment variable for MongoDB Atlas)
 const uri = process.env.MONGODB_URI; // Ensure this is set in the environment
-const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+const client = new MongoClient(uri);
 
 const dbName = 'passop';
 
