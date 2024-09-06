@@ -9,17 +9,17 @@ const Manager = () => {
     const [form, setForm] = useState({ site: "", username: "", password: "" });
     const [passwordArray, setPasswordArray] = useState([]);
 
-    const backendUrl = import.meta.env.VITE_BACKEND_URL; 
+    const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
     const getPassword = async () => {
-        
-            let req = await fetch(`${"https://password-manager-xtif.onrender.com/"}`);  
-            let passwords = await req.json();
-            console.log(passwords);
-            setPasswordArray(passwords);
-    
+
+        let req = await fetch(`${"https://password-manager-xtif.onrender.com/"}`);
+        let passwords = await req.json();
+        console.log(passwords);
+        setPasswordArray(passwords);
+
     };
-    
+
     useEffect(() => {
         getPassword()
     }, []);
@@ -56,16 +56,16 @@ const Manager = () => {
         if (form.site.length >= 1 && form.username.length >= 1 && form.password.length >= 1) {
             // Generate a new ID for the entry
             const newEntry = { ...form, id: uuidv4() };
-    
+
             // If an ID exists, delete it
             if (form.id) {
                 await fetch(`${"https://password-manager-xtif.onrender.com/"}`, { method: "DELETE", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ id: form.id }) });
             }
-    
+
             // Add the new entry to the array and save it
             setPasswordArray([...passwordArray, newEntry]);
             await fetch(`${"https://password-manager-xtif.onrender.com/"}`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(newEntry) });
-    
+
             setForm({ site: "", username: "", password: "" });
             toast('Password Saved!!', {
                 position: "top-right",
@@ -90,8 +90,8 @@ const Manager = () => {
             });
         }
     };
-    
-    
+
+
     const deletePassword = async (id) => {
         let c = confirm("Do you really want to delete this password?");
         if (c) {
@@ -111,7 +111,7 @@ const Manager = () => {
     };
 
     const editPassword = (id) => {
-        setForm({...passwordArray.filter(item => item.id === id)[0], id: id});
+        setForm({ ...passwordArray.filter(item => item.id === id)[0], id: id });
         setPasswordArray(passwordArray.filter(item => item.id !== id));
 
     };
@@ -120,7 +120,7 @@ const Manager = () => {
         <>
             <ToastContainer
                 position="top-right"
-                autoClose={5000}
+                autoClose={2000}
                 hideProgressBar={false}
                 newestOnTop={false}
                 closeOnClick
@@ -128,10 +128,9 @@ const Manager = () => {
                 pauseOnFocusLoss
                 draggable
                 pauseOnHover
-                theme="light"
-                transition="Bounce"
+                theme="dark"
             />
-            <ToastContainer />
+
 
             <div className="absolute top-0 -z-10 h-screen w-screen bg-white "></div>
             <div className="lg:mycontainer p-12">
@@ -242,7 +241,7 @@ const Manager = () => {
                                                                 trigger="hover"
                                                             ></lord-icon>
                                                         </div>
-                                                
+
                                                     </div>
                                                 </td>
                                                 <td className="justify-center py-2 border border-white text-center">
