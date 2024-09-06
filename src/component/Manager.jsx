@@ -43,11 +43,11 @@ const Manager = () => {
     };
 
     const showPassword = () => {
-        if (ref.current.src.includes("/public/icons/eyecross.svg")) {
+        if (ref.current.src.includes("/icons/eyecross.svg")) {
             passwordRef.current.type = "password";
-            ref.current.src = "public/icons/eye.svg";
+            ref.current.src = "/icons/eye.svg";
         } else {
-            ref.current.src = "public/icons/eyecross.svg";
+            ref.current.src = "/icons/eyecross.svg";
             passwordRef.current.type = "text";
         }
     };
