@@ -9,16 +9,18 @@ const Manager = () => {
     const [form, setForm] = useState({ site: "", username: "", password: "" });
     const [passwordArray, setPasswordArray] = useState([]);
 
-    const getPassword = async () => {
-        let req = await fetch(`${process.env.REACT_APP_API_BASE_URL}/`)
-        let passwords = await req.json()
-        console.log(passwords)
+    const getPasswords = async () => {
+        const apiBaseUrl = import.meta.env.VITE_API_BASE_URL; // for Vite users
+        let req = await fetch(`${apiBaseUrl}/`);
+        let passwords = await req.json();
         setPasswordArray(passwords);
+    };
+    
 
-    }
+
 
     useEffect(() => {
-        getPassword()
+        getPasswords()
     }, []);
 
     const copyText = (text) => {
@@ -53,9 +55,9 @@ const Manager = () => {
         if (form.site.length >= 1 && form.username.length >= 1 && form.password.length >= 1) {
 
             // If any such id exist in the db , delete it
-            await fetch(`${process.env.REACT_APP_API_BASE_URL}/`, { method: "DELETE", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ id: form.id }) })
+            await fetch(`${import.meta.env.VITE_API_BASE_URL}/`, { method: "DELETE", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ id: form.id }) })
             setPasswordArray([...passwordArray, { ...form, id: uuidv4() }]);
-             await fetch(`${process.env.REACT_APP_API_BASE_URL}/`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ ...form, id: uuidv4() }) })
+            await fetch(`${process.env.REACT_APP_API_BASE_URL}/`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ ...form, id: uuidv4() }) })
             // localStorage.setItem("passwords", JSON.stringify([...passwordArray, { ...form, id: uuidv4() }]));
             setForm({ site: "", username: "", password: "" });
             toast('Password Saved!!', {
@@ -86,7 +88,7 @@ const Manager = () => {
         let c = confirm("Do you really want to delete this password?");
         if (c) {
             setPasswordArray(passwordArray.filter(item => item.id !== id));
-            let res = await fetch(`${process.env.REACT_APP_API_BASE_URL}/`, { method: "DELETE", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ id }) })
+            let res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/`, { method: "DELETE", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ id }) })
             // localStorage.setItem("passwords", JSON.stringify(passwordArray.filter(item => item.id !== id)));
             toast('Password Deleted', {
                 position: "top-right",
@@ -102,7 +104,7 @@ const Manager = () => {
     };
 
     const editPassword = (id) => {
-        setForm({...passwordArray.filter(item => item.id === id)[0], id: id});
+        setForm({ ...passwordArray.filter(item => item.id === id)[0], id: id });
         setPasswordArray(passwordArray.filter(item => item.id !== id));
 
     };

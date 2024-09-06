@@ -10,7 +10,10 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 app.use(bodyParser.json());
-app.use(cors());
+app.use(cors({
+    origin: 'https://password-manager-seven-sigma.vercel.app/'
+  }));
+  
 
 // MongoDB Connection URI (use environment variable for MongoDB Atlas)
 const uri = process.env.MONGODB_URI; // Ensure this is set in the environment
