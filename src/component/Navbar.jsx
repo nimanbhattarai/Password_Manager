@@ -1,5 +1,6 @@
 import React from 'react'
 
+
 const Navbar = () => {
     return (
         <nav className='bg-slate-800 flex justify-around items-center text-white h-20'>
@@ -12,7 +13,7 @@ const Navbar = () => {
             </div>
             <a href="https://github.com/nimanbhattarai" target='_blank'>
                 <button className='text-white bg-gradient-to-r from-fuchsia-500 to-cyan-500 rounded-full flex gap-4 items-center justify-center w-40'>
-                    <img className='invert w-12 ' src="icons/github.svg" alt="github" />
+                    <img className='invert w-12 ' src="/icons/github.svg" alt="github" />
                     <span className='font-bold text-lg'>Github</span>
                 </button>
             </a>

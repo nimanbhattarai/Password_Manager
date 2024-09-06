@@ -43,11 +43,11 @@ const Manager = () => {
     };
 
     const showPassword = () => {
-        if (ref.current.src.includes("icons/eyecross.svg")) {
+        if (ref.current.src.includes("/icons/eyecross.svg")) {
             passwordRef.current.type = "password";
-            ref.current.src = "icons/eye.svg";
+            ref.current.src = "/icons/eye.svg";
         } else {
-            ref.current.src = "icons/eyecross.svg";
+            ref.current.src = "/icons/eyecross.svg";
             passwordRef.current.type = "text";
         }
     };
@@ -175,7 +175,7 @@ const Manager = () => {
                                 id="password"
                             />
                             <span className="absolute right-[5px] top-[2px] cursor-pointer" onClick={showPassword}>
-                                <img ref={ref} className="p-1" width={30} src="icons/eye.svg" alt="eye" />
+                                <img ref={ref} className="p-1" width={30} src="/icons/eye.svg" alt="eye" />
                             </span>
                         </div>
                     </div>
@@ -242,6 +242,7 @@ const Manager = () => {
                                                                 trigger="hover"
                                                             ></lord-icon>
                                                         </div>
+                                                
                                                     </div>
                                                 </td>
                                                 <td className="justify-center py-2 border border-white text-center">
