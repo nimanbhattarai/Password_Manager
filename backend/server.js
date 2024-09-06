@@ -24,31 +24,44 @@ app.use(cors())
 
 client.connect();
 
+let db;
+
+async function connectToDatabase() {
+  if (!db) {
+    const client = await MongoClient.connect(process.env.MONGODB_URI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+    db = client.db('passop');
+  }
+  return db;
+}
+
 // Get all the passwords
 app.get('/', async (req, res) => {
-    const db= client.db(dbName)
-    const collection = db.collection('passwords')
+    const db = await connectToDatabase();
+    const collection = db.collection('passwords');
     const findResult = await collection.find({}).toArray();
-    res.json(findResult)
-})
+    res.json(findResult);
+});
 
 // Save the Password
 app.post('/', async (req, res) => {
-    const password = req.body
-    const db= client.db(dbName)
-    const collection = db.collection('passwords')
-    const findResult = await collection.insertOne(password)
-    res.send({success: true, result: findResult})
-})
+    const password = req.body;
+    const db = await connectToDatabase();
+    const collection = db.collection('passwords');
+    const findResult = await collection.insertOne(password);
+    res.send({ success: true, result: findResult });
+});
 
 // Delete the Password
 app.delete('/', async (req, res) => {
-    const password = req.body
-    const db= client.db(dbName)
-    const collection = db.collection('passwords')
-    const findResult = await collection.deleteOne(password)
-    res.send({success: true, result: findResult})
-})
+    const password = req.body;
+    const db = await connectToDatabase();
+    const collection = db.collection('passwords');
+    const findResult = await collection.deleteOne(password);
+    res.send({ success: true, result: findResult });
+});
 
 app.listen(port, () => {
   console.log(`Example app listening on port http://localhost:${port}`)
