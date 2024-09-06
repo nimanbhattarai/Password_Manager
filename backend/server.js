@@ -10,6 +10,9 @@ dotenv.config()
 const url = 'mongodb://localhost:27017';
 const client = new MongoClient(url);
 
+Mongoose.connect('mongodb+srv://nimanbhattarai1234:niman123@passwordmanagercluster1.z4wjv.mongodb.net/passop?retryWrites=true&w=majority&appName=passwordmanagerCluster1')
+
+
 // Database Name
 const dbName = 'passop';
 const app = express()
