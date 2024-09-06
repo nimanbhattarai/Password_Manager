@@ -4,77 +4,75 @@ const { MongoClient } = require('mongodb');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 
-dotenv.config();
+dotenv.config(); // Load environment variables from .env
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 
 app.use(bodyParser.json());
 app.use(cors());
 
-// MongoDB Connection URI
-const uri = process.env.MONGODB_URI || 'mongodb://localhost:27017';
+// MongoDB Connection URI (use environment variable for MongoDB Atlas)
+const uri = process.env.MONGODB_URI; // Ensure this is set in the environment
+const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+
 const dbName = 'passop';
 
-// Initialize MongoDB client
-let db;
+// Connect to MongoDB (Connect once and reuse the connection)
 async function connectToDatabase() {
-  if (!db) {
     try {
-      const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
-      await client.connect();
-      db = client.db(dbName);
-      console.log('Connected to MongoDB');
+        await client.connect();
+        console.log('Connected to MongoDB');
     } catch (error) {
-      console.error('MongoDB connection error:', error);
-      throw error;
+        console.error('MongoDB connection error:', error);
+        throw error;
     }
-  }
-  return db;
 }
+
+connectToDatabase();
 
 // Get all the passwords
 app.get('/', async (req, res) => {
-  try {
-    const db = await connectToDatabase();
-    const collection = db.collection('passwords');
-    const passwords = await collection.find({}).toArray();
-    res.json(passwords);
-  } catch (error) {
-    console.error('Error fetching passwords:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
-  }
+    try {
+        const db = client.db(dbName);
+        const collection = db.collection('passwords');
+        const findResult = await collection.find({}).toArray();
+        res.json(findResult);
+    } catch (error) {
+        console.error('Error fetching passwords:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
 });
 
 // Save the Password
 app.post('/', async (req, res) => {
-  try {
-    const password = req.body;
-    const db = await connectToDatabase();
-    const collection = db.collection('passwords');
-    const result = await collection.insertOne(password);
-    res.json({ success: true, result });
-  } catch (error) {
-    console.error('Error saving password:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
-  }
+    try {
+        const password = req.body;
+        const db = client.db(dbName);
+        const collection = db.collection('passwords');
+        const findResult = await collection.insertOne(password);
+        res.json({ success: true, result: findResult });
+    } catch (error) {
+        console.error('Error saving password:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
 });
 
 // Delete the Password
 app.delete('/', async (req, res) => {
-  try {
-    const password = req.body;
-    const db = await connectToDatabase();
-    const collection = db.collection('passwords');
-    const result = await collection.deleteOne(password);
-    res.json({ success: true, result });
-  } catch (error) {
-    console.error('Error deleting password:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
-  }
+    try {
+        const password = req.body;
+        const db = client.db(dbName);
+        const collection = db.collection('passwords');
+        const findResult = await collection.deleteOne(password);
+        res.json({ success: true, result: findResult });
+    } catch (error) {
+        console.error('Error deleting password:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
 });
 
 // Start the server
 app.listen(port, () => {
-  console.log(`Server is running on http://localhost:${port}`);
+    console.log(`Server is running on http://localhost:${port}`);
 });
